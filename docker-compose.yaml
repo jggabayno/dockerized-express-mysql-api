@@ -1,0 +1,57 @@
+version: "3.8"
+services:
+  mysql:
+    container_name: dem_mysql_cont
+    image: dem_mysql
+    build: ./mysql
+    networks:
+      - dem_net
+    ports:
+      - ${DEM_DBPORT}:${DEM_DBPORT}
+    volumes:
+      - mysql_data:/var/lib/mysql/
+      - ./mysql/dem:/dem
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  bend:
+    stdin_open: true
+    tty: true
+    container_name: dem_bend_cont
+    image: dem_bend
+    build:
+      context: ./express
+    ports:
+      - ${DEM_BEND_PORT}:${DEM_BEND_PORT}
+    volumes:
+      - express_data:/app
+      - ./express/dem:/dem
+    depends_on:
+      - mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - DEM_DBHOST=${DEM_DBHOST}
+      - DEM_DBPORT=${DEM_DBPORT} 
+      - DEM_DBNAME=${DEM_DBNAME}
+      - DEM_DBUSER=${DEM_DBUSER}
+      - DEM_DBPASS=${DEM_DBPASS}
+      - DEM_BEND_HOST=${DEM_BEND_HOST}
+      - DEM_BEND_PORT=${DEM_BEND_PORT}
+      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
+      - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
+      - ACCESS_TOKEN_LIFETIME=${ACCESS_TOKEN_LIFETIME}
+      - GOOGLE_APP_EMAIL=${GOOGLE_APP_EMAIL}
+      - GOOGLE_APP_PASSWORD=${GOOGLE_APP_PASSWORD}
+    networks:
+      - dem_net
+volumes:
+  mysql_data:
+  express_data:
+networks:
+  dem_net:
+    driver: bridge

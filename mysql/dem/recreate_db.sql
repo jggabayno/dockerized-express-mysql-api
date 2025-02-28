@@ -1,0 +1,5 @@
+SET NAMES utf8 ;
+
+DROP DATABASE dem;
+CREATE DATABASE dem;
+USE dem

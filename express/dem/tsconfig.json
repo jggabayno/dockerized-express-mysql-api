@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "lib": ["es6", "dom", "ES2021.String"],
+        "allowJs": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "removeComments": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "moduleResolution": "node",
+        "baseUrl": "./src",
+        "paths": {
+            "@constants/*": ["constants/*"],
+            "@controllers/*": ["controllers/*"],
+            "@entities/*": ["entities/*"],
+            "@interactors/*": ["interactors/*"],
+            "@interfaces/*": ["interfaces/*"],
+            "@middleware/*": ["middleware/*"],
+            "@persistence/*": ["persistence/*"],
+            "@routes/*": ["routes/*"],
+            "@services/*": ["services/*"],
+            "@utilities/*": ["utilities/*"],
+        },
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "downlevelIteration": true
+    },
+    "include": ["./**/*.ts"],
+    "exclude": ["node_modules", "build"]
+}
